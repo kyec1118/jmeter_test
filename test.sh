@@ -22,7 +22,7 @@ mkdir -p ${R_DIR}
 ./run.sh -Dlog_level.jmeter=DEBUG \
 	-JTARGET_HOST=${TARGET_HOST} -JTARGET_PORT=${TARGET_PORT} \
 	-JTARGET_PATH=${TARGET_PATH} -JTARGET_KEYWORD=${TARGET_KEYWORD} \
-	-n -t ${T_DIR}/test-plan.jmx -l ${T_DIR}/test-plan.jtl -j ${T_DIR}/jmeter.log \
+	-n -t ${T_DIR}/get_event_history.jmx -l ${T_DIR}/test-plan.jtl -j ${T_DIR}/jmeter.log \
 	-e -o ${R_DIR}
 
 echo "==== jmeter.log ===="
