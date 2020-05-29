@@ -1,17 +1,17 @@
-# inspired by https://github.com/hauptmedia/docker-jmeter  and
-# https://github.com/hhcordero/docker-jmeter-server/blob/master/Dockerfile
+# originally from justb4/jmeter 
+
 FROM alpine:3.10  
 
-MAINTAINER Just van den Broecke<just@justobjects.nl> 
+MAINTAINER Dale Chang 
 
-ARG JMETER_VERSION="5.1.1"
-ENV JMETER_HOME /opt/apache-jmeter-${JMETER_VERSION}
+ARG     JMETER_VERSION="5.1.1"
+ENV     JMETER_HOME /opt/apache-jmeter-${JMETER_VERSION}
 ENV	JMETER_BIN	${JMETER_HOME}/bin
 ENV	JMETER_DOWNLOAD_URL  https://archive.apache.org/dist/jmeter/binaries/apache-jmeter-${JMETER_VERSION}.tgz
 
 # Install extra packages
 # See https://github.com/gliderlabs/docker-alpine/issues/136#issuecomment-272703023
-# Change TimeZone TODO: TZ still is not set!
+
 ARG TZ="Asia/Taipei"
 RUN    apk update \
 	&& apk upgrade \
