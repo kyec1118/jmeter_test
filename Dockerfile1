@@ -1,24 +1,28 @@
-ARG     JMETER_VERSION="5.1.1"
-ENV     JMETER_HOME /opt/apache-jmeter-${JMETER_VERSION}
-ENV	   JMETER_BIN	${JMETER_HOME}/bin
-ENV	   JMETER_DOWNLOAD_URL https://archive.apache.org/dist/jmeter/binaries/apache-jmeter-${JMETER_VERSION}.tgz
+FROM ubuntu:18.04  
 
-ARG TZ="Asia/Taipei"
+MAINTAINER Dale.C 
+
+ARG   JMETER_VERSION="5.1.1"
+ENV   JMETER_HOME /opt/apache-jmeter-${JMETER_VERSION}
+ENV	  JMETER_BIN	${JMETER_HOME}/bin
+ENV	  JMETER_DOWNLOAD_URL https://archive.apache.org/dist/jmeter/binaries/apache-jmeter-${JMETER_VERSION}.tgz
 
 RUN apt-get update -y \
    && apt-get install ca-certificates -y \
-   && apt-get install openjdk-8-jre -y tzdata curl unzip bash \
-   && apt-get install libnss3 -y \
-   && rm -rf /var/cache/apt/* \
+   && apt-get install openjdk-8-jre -y tzdata curl unzip bash 
+   
+RUN rm -rf /var/cache/apt/* \
    && mkdir -p /tmp/dependencies  \
    && curl -L -s ${JMETER_DOWNLOAD_URL} >  /tmp/dependencies/apache-jmeter-${JMETER_VERSION}.tgz  \
    && mkdir -p /opt \
    && tar -xzf /tmp/dependencies/apache-jmeter-${JMETER_VERSION}.tgz -C /opt  \
    && rm -rf /tmp/dependencies \
-   && mkdir /report \
-   && mkdir -p /jmeter_scripts \
-  
-COPY ["API Server", "/jmeter_scripts/API Server"]
+   && mkdir -p /jmeter_scripts  \
+   && cp /usr/share/zoneinfo/Asia/Taipei /etc/localtime
+
+VOLUME "/report"
+   
+COPY ["API Server","/jmeter_scripts/API Server"]
 COPY Caring_Service /jmeter_scripts/Caring_Service
 COPY Firmware /jmeter_scripts/Firmware
 COPY ai /jmeter_scripts/ai
@@ -27,6 +31,5 @@ COPY ["clean cache.jmx", "/jmeter_scripts/"]
 COPY jmetershell.sh /jmeter_scripts/
 COPY run.sh /
 
+#ENTRYPOINT ["sh", "run.sh"]
 
-ENTRYPOINT ["sh", "/run.sh"]
- 
